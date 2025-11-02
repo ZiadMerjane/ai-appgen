@@ -11,8 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "format": "prettier --check .",
-    "format:write": "prettier --write .",
-    "prepare": "husky install"
+    "format:write": "prettier --write ."
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "0.10.0",
