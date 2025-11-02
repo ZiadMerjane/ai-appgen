@@ -1,11 +1,11 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { generateApp } from "@/lib/generator";
+import { generateApp, OUTPUT_ROOT } from "@/lib/generator";
 import { checkRateLimit } from "@/lib/rate";
 import { ensureSpecDefaults } from "@/lib/spec";
-
-export const runtime = "nodejs";
 
 const requestSchema = z.object({
   spec: z.unknown(),
@@ -45,6 +45,7 @@ export async function POST(request: Request) {
       spec: specResult,
       slug: result.slug,
       outputDir: result.targetDir,
+      rootDir: OUTPUT_ROOT,
       filesWritten: result.filesWritten,
     });
   } catch (error) {

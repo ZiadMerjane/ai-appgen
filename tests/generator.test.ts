@@ -19,22 +19,29 @@ const requiredFiles = [
 
 describe("generateApp", () => {
   let tempDir: string;
+  let originalGeneratorRoot: string | undefined;
 
   beforeEach(async () => {
     tempDir = await mkdtemp(path.join(tmpdir(), "generator-test-"));
+    originalGeneratorRoot = process.env.GENERATOR_ROOT;
+    process.env.GENERATOR_ROOT = path.join(tempDir, "generated-root");
   });
 
   afterEach(async () => {
+    if (originalGeneratorRoot === undefined) {
+      delete process.env.GENERATOR_ROOT;
+    } else {
+      process.env.GENERATOR_ROOT = originalGeneratorRoot;
+    }
     await rm(tempDir, { recursive: true, force: true });
   });
 
   it("creates expected files within generated folder", async () => {
     const result = await generateApp({
       spec: defaultSpec,
-      baseDir: tempDir,
       projectRoot: process.cwd(),
     });
-    const base = path.join(tempDir, "generated", result.slug);
+    const base = result.targetDir;
 
     for (const relative of requiredFiles) {
       const filePath = path.join(base, relative);
