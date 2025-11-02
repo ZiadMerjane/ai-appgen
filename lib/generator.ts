@@ -1,3 +1,4 @@
+import os from "node:os";
 import path from "node:path";
 import slugify from "slugify";
 
@@ -5,9 +6,14 @@ import { ensureDir, pathExists, writeFileRecursive } from "@/lib/fsx";
 import type { AppSpec } from "@/lib/spec";
 import { buildFileMap } from "@/lib/templates/next";
 
+const DEFAULT_LOCAL_ROOT = path.resolve(process.cwd(), "generated");
+const VERCEL_TMP_ROOT = path.join(os.tmpdir(), "ai-appgen", "generated");
+
+export const OUTPUT_ROOT =
+  process.env.GENERATOR_ROOT ?? (process.env.VERCEL ? VERCEL_TMP_ROOT : DEFAULT_LOCAL_ROOT);
+
 export type GenerateOptions = {
   spec: AppSpec;
-  baseDir?: string;
   projectRoot?: string;
 };
 
@@ -19,15 +25,13 @@ export type GenerateResult = {
 
 export async function generateApp({
   spec,
-  baseDir = process.cwd(),
   projectRoot = process.cwd(),
 }: GenerateOptions): Promise<GenerateResult> {
-  const generatedRoot = path.join(baseDir, "generated");
-  await ensureDir(generatedRoot);
+  await ensureDir(OUTPUT_ROOT);
 
   const baseSlug = slugify(spec.name, { lower: true, strict: true }) || "app";
-  const slug = await ensureUniqueSlug(generatedRoot, baseSlug);
-  const targetDir = path.join(generatedRoot, slug);
+  const slug = await ensureUniqueSlug(OUTPUT_ROOT, baseSlug);
+  const targetDir = path.join(OUTPUT_ROOT, slug);
 
   await ensureDir(targetDir);
 

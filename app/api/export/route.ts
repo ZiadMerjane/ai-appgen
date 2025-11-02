@@ -5,9 +5,13 @@ export const revalidate = 0;
 import { NextRequest } from "next/server";
 import archiver from "archiver";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
-const GENERATED_ROOT = path.resolve(process.cwd(), "generated");
+const DEFAULT_LOCAL_ROOT = path.resolve(process.cwd(), "generated");
+const VERCEL_TMP_ROOT = path.join(os.tmpdir(), "ai-appgen", "generated");
+const GENERATED_ROOT =
+  process.env.GENERATOR_ROOT ?? (process.env.VERCEL ? VERCEL_TMP_ROOT : DEFAULT_LOCAL_ROOT);
 const MAX_BYTES = 200 * 1024 * 1024;
 
 export async function GET(req: NextRequest) {
