@@ -1,4 +1,7 @@
+export const dynamic = "force-dynamic";
+
 import { readdir, stat } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 
 import PromptForm from "@/components/PromptForm";
@@ -35,16 +38,18 @@ export default async function Home() {
 }
 
 async function getRecentGenerations(): Promise<GenerationInfo[]> {
-  const root = path.join(process.cwd(), "generated");
-  let entries: GenerationInfo[] = [];
+  const DEFAULT_LOCAL_ROOT = path.resolve(process.cwd(), "generated");
+  const VERCEL_TMP_ROOT = path.join(os.tmpdir(), "ai-appgen", "generated");
+  const GENERATED_ROOT =
+    process.env.GENERATOR_ROOT ?? (process.env.VERCEL ? VERCEL_TMP_ROOT : DEFAULT_LOCAL_ROOT);
 
   try {
-    const directoryEntries = await readdir(root, { withFileTypes: true });
+    const directoryEntries = await readdir(GENERATED_ROOT, { withFileTypes: true }).catch(() => []);
     const stats = await Promise.all(
       directoryEntries
         .filter((entry) => entry.isDirectory())
         .map(async (entry) => {
-          const folderPath = path.join(root, entry.name);
+          const folderPath = path.join(GENERATED_ROOT, entry.name);
           const metadata = await stat(folderPath);
           return {
             slug: entry.name,
@@ -55,10 +60,8 @@ async function getRecentGenerations(): Promise<GenerationInfo[]> {
         }),
     );
 
-    entries = stats.sort((a, b) => b.mtimeMs - a.mtimeMs).slice(0, 3);
-  } catch (error) {
-    console.warn("Failed to read generated directory", error);
+    return stats.sort((a, b) => b.mtimeMs - a.mtimeMs).slice(0, 3);
+  } catch {
+    return [];
   }
-
-  return entries;
 }
