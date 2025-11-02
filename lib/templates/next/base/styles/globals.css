@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.card {
+  @apply rounded-xl border border-slate-700 bg-slate-900/60 backdrop-blur p-6 shadow-lg;
+}

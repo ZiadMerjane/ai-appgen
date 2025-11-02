@@ -1,0 +1,50 @@
+{
+  "name": "{{APP_SLUG}}",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "db:migrate": "supabase db push"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "5.2.2",
+    "@supabase/auth-helpers-nextjs": "0.10.0",
+    "@supabase/auth-helpers-react": "0.5.0",
+    "@supabase/supabase-js": "2.78.0",
+    "autoprefixer": "10.4.21",
+    "clsx": "2.1.1",
+    "next": "16.0.1",
+    "postcss": "8.5.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-hook-form": "7.66.0",
+    "tailwindcss": "4.1.16",
+    "zod": "3.25.10"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.16",
+    "@tailwindcss/postcss": "4.1.16",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "24.9.2",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitest/coverage-v8": "4.0.6",
+    "eslint": "9.39.0",
+    "eslint-config-next": "16.0.1",
+    "eslint-config-prettier": "10.1.8",
+    "jsdom": "27.1.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "vitest": "4.0.6"
+  }
+}

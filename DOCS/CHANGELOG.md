@@ -1,0 +1,7 @@
+- 2024-11-04: Completed M1 baseline audit (validated pnpm 10.20.0, Node 20.19.5, existing Tailwind setup; identified missing Next.js app scaffold and tooling gaps).
+- 2024-11-04: Completed M2 planner stack (added TypeScript/Next scaffolding, zod spec w/defaults, heuristic+OpenAI LLM wrapper, `/api/plan` route, lint configured for ESLint 9).
+- 2024-11-04: Completed M3 generator pipeline (implemented filesystem helpers, normalized spec + Supabase SQL writer, rich Next template set with auth/CRUD, `/api/generate` route writing unique slugs).
+- 2024-11-04: Completed M4 exporter (added `/api/export` streaming zip with size guard, reusable `zipDirectoryToBuffer`, tests covering archive output).
+- 2024-11-04: Completed M5 landing UI (built interactive prompt form with planner/generator/download flow, recent generations list, toast system, README + env docs updates).
+- 2024-11-04: Completed M6 QA (Vitest suites for spec defaults, generator filesystem output, PromptForm interactions, exporter helper; lint/test automation passing).
+- 2024-11-04: Added GitHub push helpers + `gh` detection to the UI, owner-scoped Supabase RLS policies, API rate limiting, updated deployment docs, and new Vitest coverage for the limiter and SQL templates.
